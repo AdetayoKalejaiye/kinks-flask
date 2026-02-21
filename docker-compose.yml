@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  kinks-flask:
+    build: .
+    container_name: kinks-ai-assistant
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+      - MISTRAL_API_KEY=${MISTRAL_API_KEY}
+      - FIREBASE_CERT_PATH=/app/firebase-cert.json
+    volumes:
+      - ./afroheads-d9e1a-firebase-adminsdk-fbsvc-c2f4243995.json:/app/firebase-cert.json:ro
+      - ./static:/app/static
+      - ./templates:/app/templates
+    restart: unless-stopped
+    networks:
+      - kinks-network
+
+networks:
+  kinks-network:
+    driver: bridge

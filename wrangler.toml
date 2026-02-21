@@ -1,0 +1,39 @@
+# Cloudflare Workers Configuration for Kinks Flask App
+name = "kinks-ai-assistant"
+main = "src/index.js"
+compatibility_date = "2024-01-21"
+workers_dev = true
+
+# Account details
+account_id = "your_account_id_here"
+
+# Routes configuration
+routes = [
+  { pattern = "kinks.yourapp.com/*", zone_name = "yourapp.com" }
+]
+
+# Environment variables
+[env.production.vars]
+ENVIRONMENT = "production"
+
+# KV Namespaces for caching
+[[kv_namespaces]]
+binding = "KINKS_CACHE"
+id = "your_kv_namespace_id"
+
+# Durable Objects (for WebSocket support if needed)
+# [[durable_objects.bindings]]
+# name = "KINKS_DO"
+# class_name = "KinksDurableObject"
+
+# Build configuration
+[build]
+command = "npm install && npm run build"
+
+# Python compatibility via WASM
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+# Compatibility flags
+compatibility_flags = ["nodejs_compat"]

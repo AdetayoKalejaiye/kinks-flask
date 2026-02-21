@@ -1,0 +1,25 @@
+{
+  "name": "kinks-flask-cloudflare",
+  "version": "1.0.0",
+  "description": "Kinks AI Assistant - Cloudflare Workers deployment",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail",
+    "format": "prettier --write '**/*.{js,json,md}'"
+  },
+  "keywords": [
+    "cloudflare",
+    "workers",
+    "ai",
+    "chatbot",
+    "flask"
+  ],
+  "author": "AfroHeads",
+  "license": "MIT",
+  "devDependencies": {
+    "wrangler": "^3.22.0",
+    "prettier": "^3.1.0"
+  }
+}
