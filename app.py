@@ -34,7 +34,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Configuration
-MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY", "ZWKpktJFnerffL3w55j6cuvMqzODCziZ")
+MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
 if not MISTRAL_API_KEY:
     raise ValueError("MISTRAL_API_KEY environment variable not set.")
 

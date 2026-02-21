@@ -62,7 +62,6 @@ class KinksChat {
                 role: msg.role === 'assistant' ? 'kinks' : msg.role,
                 content: msg.content
             }));
- (Workers endpoint with KV storage)
             const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: {
