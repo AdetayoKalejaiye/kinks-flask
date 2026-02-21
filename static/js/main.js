@@ -15,6 +15,7 @@ class KinksChat {
         this.currentPose = 'neutral';
         this.isLoading = false;
         this.turnstileToken = null;
+        this.sessionId = this.getOrCreateSessionId();
         
         this.init();
     }
@@ -61,8 +62,7 @@ class KinksChat {
                 role: msg.role === 'assistant' ? 'kinks' : msg.role,
                 content: msg.content
             }));
-
-            // Call API
+ (Workers endpoint with KV storage)
             const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: {
@@ -70,6 +70,7 @@ class KinksChat {
                 },
                 body: JSON.stringify({
                     query: message,
+                    user_id: this.sessionId,
                     history: history.slice(0, -1), // Exclude the message we just added
                     cf_turnstile_token: this.turnstileToken
                 })
@@ -162,15 +163,36 @@ class KinksChat {
         this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
     }
 
-    clearChat() {
+    async clearChat() {
         if (!confirm('Are you sure you want to clear all chat messages? This cannot be undone.')) {
             return;
         }
         
+        // Clear server-side history (KV storage)
+        try {
+            await fetch('/api/clear', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ session_id: this.sessionId })
+            });
+        } catch (error) {
+            console.error('Error clearing server history:', error);
+        }
+        
+        // Clear client-side
         this.messages = [];
         this.saveChatHistory();
         this.renderMessages();
         this.updatePose('neutral');
+    }
+
+    getOrCreateSessionId() {
+        let sessionId = localStorage.getItem('kinks_session_id');
+        if (!sessionId) {
+            sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
+            localStorage.setItem('kinks_session_id', sessionId);
+        }
+        return sessionId;
     }
 
     loadChatHistory() {
