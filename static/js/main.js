@@ -191,7 +191,6 @@ class KinksChat {
         }
     }
 }
-Cloudflare Turnstile callback
 function onTurnstileSuccess(token) {
     if (window.kinksChat) {
         window.kinksChat.turnstileToken = token;
@@ -200,6 +199,6 @@ function onTurnstileSuccess(token) {
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    window.kinksChat =ument.addEventListener('DOMContentLoaded', () => {
+    window.kinksChat =document.addEventListener('DOMContentLoaded', () => {
     new KinksChat();
-});
+})});
